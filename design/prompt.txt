@@ -1,0 +1,1 @@
+yes You can hotlink images from the html

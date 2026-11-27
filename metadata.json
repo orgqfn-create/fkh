@@ -1,0 +1,6 @@
+{
+  "name": "Fayyaz Kabaab House",
+  "description": "Authentic Pakistani Charcoal BBQ, Karahi & Dawat Ordering Experience with Live Kitchen Operations Panel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

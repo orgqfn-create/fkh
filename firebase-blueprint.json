@@ -1,0 +1,213 @@
+{
+  "entities": {
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized restaurant administrator entry",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "email": { "type": "string", "format": "email", "maxLength": 200 },
+        "name": { "type": "string", "maxLength": 120 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile document",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "email": { "type": "string", "format": "email", "maxLength": 200 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "role": { "type": "string", "enum": ["customer", "admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "email", "role", "createdAt"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Restaurant menu category",
+      "type": "object",
+      "properties": {
+        "categoryId": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "categoryName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "description": { "type": "string", "maxLength": 300 },
+        "image": { "type": "string", "maxLength": 1000 },
+        "isActive": { "type": "boolean" },
+        "displayOrder": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["categoryId", "categoryName", "isActive", "createdAt"]
+    },
+    "MenuItem": {
+      "title": "MenuItem",
+      "description": "Menu item served at Fayyaz Kabaab House",
+      "type": "object",
+      "properties": {
+        "itemId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 140 },
+        "urduTitle": { "type": "string", "maxLength": 140 },
+        "description": { "type": "string", "maxLength": 600 },
+        "portionLabel": { "type": "string", "maxLength": 100 },
+        "categoryId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "spice": { "type": "string", "enum": ["mild", "medium", "spicy"] },
+        "spiceLabel": { "type": "string", "maxLength": 60 },
+        "price": { "type": "number" },
+        "imageUrl": { "type": "string", "maxLength": 1200 },
+        "availability": { "type": "boolean" },
+        "featured": { "type": "boolean" },
+        "badge": { "type": "string", "maxLength": 60 },
+        "badgeVariant": { "type": "string", "enum": ["primary", "secondary"] },
+        "homeCategory": { "type": "string", "enum": ["seekh", "tikka", "bihari"] },
+        "variants": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["itemId", "name", "description", "categoryId", "price", "availability", "featured", "createdAt", "updatedAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer restaurant order containing PII and itemized totals",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "trackingToken": { "type": "string", "minLength": 20, "maxLength": 80, "pattern": "^FKH-[0-9]{6}-[A-F0-9]{12,32}$" },
+        "customerName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "customerPhone": { "type": "string", "minLength": 5, "maxLength": 30 },
+        "deliveryAddress": { "type": "string", "minLength": 3, "maxLength": 400 },
+        "landmark": { "type": "string", "maxLength": 200 },
+        "items": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "discountAmount": { "type": "number" },
+        "deliveryCharges": { "type": "number" },
+        "taxAmount": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "channel": { "type": "string", "enum": ["whatsapp", "online", "cod"] },
+        "promoCode": { "type": "string", "maxLength": 40 },
+        "orderStatus": {
+          "type": "string",
+          "enum": ["Pending", "Confirmed", "Preparing", "Ready", "Out for Delivery", "Delivered", "Cancelled"]
+        },
+        "orderNotes": { "type": "string", "maxLength": 400 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "riderName": { "type": "string", "maxLength": 120 },
+        "riderPhone": { "type": "string", "maxLength": 30 },
+        "etaMinutes": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "orderId",
+        "trackingToken",
+        "customerName",
+        "customerPhone",
+        "deliveryAddress",
+        "items",
+        "subtotal",
+        "discountAmount",
+        "deliveryCharges",
+        "taxAmount",
+        "totalAmount",
+        "paymentMethod",
+        "orderStatus",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "OrderTracking": {
+      "title": "OrderTracking",
+      "description": "Non-PII live order tracking status protected by secret tracking token and optional userId",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "trackingToken": { "type": "string", "minLength": 20, "maxLength": 80, "pattern": "^FKH-[0-9]{6}-[A-F0-9]{12,32}$" },
+        "orderStatus": {
+          "type": "string",
+          "enum": ["Pending", "Confirmed", "Preparing", "Ready", "Out for Delivery", "Delivered", "Cancelled"]
+        },
+        "etaMinutes": { "type": "number" },
+        "userId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "trackingToken", "orderStatus", "createdAt", "updatedAt"]
+    },
+    "Offer": {
+      "title": "Offer",
+      "description": "Promotional voucher or seasonal BBQ offer",
+      "type": "object",
+      "properties": {
+        "offerId": { "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "code": { "type": "string", "minLength": 2, "maxLength": 40 },
+        "description": { "type": "string", "maxLength": 300 },
+        "discount": { "type": "number" },
+        "discountType": { "type": "string", "enum": ["percent", "fixed"] },
+        "imageUrl": { "type": "string", "maxLength": 1200 },
+        "startDate": { "type": "string", "maxLength": 60 },
+        "endDate": { "type": "string", "maxLength": 60 },
+        "redemptions": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["offerId", "title", "code", "description", "discount", "discountType", "isActive", "createdAt"]
+    },
+    "RestaurantSettings": {
+      "title": "RestaurantSettings",
+      "description": "Branch configuration, hours, delivery fee, and contact details",
+      "type": "object",
+      "properties": {
+        "restaurantName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "phone": { "type": "string", "minLength": 5, "maxLength": 40 },
+        "whatsappNumber": { "type": "string", "minLength": 5, "maxLength": 40 },
+        "address": { "type": "string", "minLength": 3, "maxLength": 300 },
+        "openingHours": { "type": "string", "minLength": 3, "maxLength": 80 },
+        "deliveryCharges": { "type": "number" },
+        "minimumOrder": { "type": "number" },
+        "deliveryRadius": { "type": "string", "maxLength": 40 },
+        "gpsCoordinates": { "type": "string", "maxLength": 60 },
+        "logoUrl": { "type": "string", "maxLength": 1200 },
+        "heroBannerUrl": { "type": "string", "maxLength": 1200 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["restaurantName", "phone", "whatsappNumber", "address", "openingHours", "deliveryCharges", "minimumOrder", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Authorized admin accounts"
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Registered user profiles and roles"
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Menu categories"
+    },
+    "/menuItems/{itemId}": {
+      "schema": { "$ref": "#/entities/MenuItem" },
+      "description": "Menu catalog items"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Customer orders with PII protected by RBAC"
+    },
+    "/orderTracking/{trackingId}": {
+      "schema": { "$ref": "#/entities/OrderTracking" },
+      "description": "Non-PII order status document keyed by unguessable trackingToken for live customer tracking"
+    },
+    "/offers/{offerId}": {
+      "schema": { "$ref": "#/entities/Offer" },
+      "description": "Active promotional offers and voucher codes"
+    },
+    "/restaurantSettings/{settingId}": {
+      "schema": { "$ref": "#/entities/RestaurantSettings" },
+      "description": "Restaurant operational settings and delivery fee"
+    }
+  }
+}

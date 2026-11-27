@@ -1,0 +1,38 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedAdmin() {
+      return isSignedIn() &&
+        request.auth.token.email_verified == true &&
+        (
+          request.auth.token.admin == true ||
+          request.auth.token.email == 'orgqfn@gmail.com' ||
+          firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid))
+        );
+    }
+
+    function isImageUpload() {
+      return request.resource != null &&
+        request.resource.size <= 5 * 1024 * 1024 &&
+        request.resource.contentType.matches('image/(jpeg|jpg|png|webp|avif)');
+    }
+
+    // Public read for restaurant imagery (logo, dishes, banners, offers, gallery)
+    match /restaurant/{folder}/{fileName} {
+      allow read: if true;
+      allow create, update: if isVerifiedAdmin() &&
+        folder in ['logo', 'menu', 'bbq', 'banners', 'offers', 'gallery'] &&
+        isImageUpload();
+      allow delete: if isVerifiedAdmin();
+    }
+
+    // Default deny for everything else
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

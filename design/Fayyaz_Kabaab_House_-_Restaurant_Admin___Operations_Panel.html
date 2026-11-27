@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary-fixed": "#ffdf9a", "on-error": "#690005", "surface-container-lowest": "#100e0c", "secondary-fixed": "#ffdad6", "on-primary": "#3c2f00", "primary": "#f2ca50", "secondary": "#ffb4ac", "on-tertiary-fixed-variant": "#5a4300", "tertiary-container": "#e0ab00", "surface-container-low": "#1e1b19", "primary-container": "#d4af37", "inverse-primary": "#735c00", "on-error-container": "#ffdad6", "secondary-fixed-dim": "#ffb4ac", "on-secondary-fixed": "#410002", "surface-dim": "#161311", "secondary-container": "#921517", "inverse-on-surface": "#34302d", "tertiary": "#ffc62b", "surface": "#161311", "on-tertiary-container": "#584200", "primary-fixed-dim": "#e9c349", "on-background": "#e9e1dd", "error": "#ffb4ab", "on-secondary-fixed-variant": "#8e1214", "surface-variant": "#383431", "inverse-surface": "#e9e1dd", "surface-container-high": "#2d2927", "on-secondary-container": "#ff9f95", "on-primary-fixed-variant": "#574500", "on-surface": "#e9e1dd", "surface-container-highest": "#383431", "error-container": "#93000a", "on-tertiary-fixed": "#251a00", "on-surface-variant": "#d0c5af", "surface-tint": "#e9c349", "on-primary-container": "#554300", "background": "#161311", "primary-fixed": "#ffe088", "surface-bright": "#3d3836", "outline-variant": "#4d4635", "surface-container": "#221f1d", "tertiary-fixed-dim": "#f7be1d", "outline": "#99907c", "on-primary-fixed": "#241a00", "on-secondary": "#690007", "on-tertiary": "#3f2e00" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "gutter-mobile": "1rem", "space-sm": "0.5rem", "space-xl": "2.5rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "gutter": "1.5rem", "margin": "3rem", "space-md": "1rem", "margin-mobile": "1.25rem" }, "fontFamily": { "headline-sm": ["Playfair Display"], "label-lg": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "display-lg-mobile": ["Playfair Display"], "title-lg": ["Plus Jakarta Sans"], "title-md": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Playfair Display"], "label-md": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-md": ["Playfair Display"], "display-lg": ["Playfair Display"], "label-sm": ["Plus Jakarta Sans"], "headline-lg": ["Playfair Display"] }, "fontSize": { "headline-sm": ["22px", { "lineHeight": "28px", "fontWeight": "500" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.08em", "fontWeight": "600" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }], "body-md": ["15px", { "lineHeight": "24px", "fontWeight": "400" }], "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "title-lg": ["20px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "600" }], "title-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "600" }], "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }], "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "500" }], "display-lg": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.12em", "fontWeight": "700" }], "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface min-h-screen flex flex-col selection:bg-primary selection:text-on-primary"><header class="fixed top-0 inset-x-0 z-50 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)]"><div class="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-80"></div><div class="h-20 px-gutter-mobile flex items-center justify-between gap-space-sm pt-safe"><div class="flex items-center gap-space-sm"><img alt="Fayyaz Kabaab House Emblem" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHK4XsjHm1DWNpW6dRmlSyVnqgFMe64FVdizIc3KYcG7R3K8mFmamjjS5hssGsLdr66ZRcePmm6OYGQ0TX-htrx9odZsveTiA2tpn8EaMUXDt6qowX286q-1CS0bmeYGZLXhhg94-EY_G0yrWrEOb5ZvNrSToVcpZTwI_id8LtaRRYziXxVaEW4Bfg-MHbY-fl6RH9oxO5dSwqQqGMiY4F7eE-PNSWHr4xEdInc6VB"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary leading-tight tracking-wide">Fayyaz Kabaab House</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Authentic Pakistani BBQ</span></div></div><div class="flex items-center gap-1"><a aria-label="Call or WhatsApp" class="w-11 h-11 flex items-center justify-center rounded-full text-primary hover:bg-surface-container-high transition-colors" href="tel:+923000000000"><span class="material-symbols-outlined text-[20px]">call</span></a><button aria-label="Search" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[20px]">search</span></button><button aria-label="Navigation Menu" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[22px]">menu</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ml-1"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-20 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full text-on-surface">
+<!-- Top Ambient Glow & Executive Header Status -->
+<div class="px-gutter-mobile py-space-sm bg-surface-container-low flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+<span class="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-surface-container-low animate-pulse"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-primary font-bold truncate">Operations HQ</span>
+<span class="bg-surface-container-highest text-primary-fixed-dim text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Live</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Terminal #1 • Burns Road Branch</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<button aria-label="Refresh Data" class="flex items-center justify-center w-9 h-9 rounded-full bg-surface-container-high text-primary hover:bg-surface-bright active:scale-95 transition-transform" id="refreshOrdersBtn">
+<span class="material-symbols-outlined text-[20px]" id="refreshIcon">sync</span>
+</button>
+<div class="flex items-center gap-1 bg-surface-container-high px-2.5 py-1.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold">Koyla Hot</span>
+</div>
+</div>
+</div>
+<!-- 1. Executive Quick Stats Bar (Horizontal Scroll / Bento Mosaic) -->
+<section class="px-gutter-mobile pt-space-md">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">query_stats</span>
+<h2 class="font-title-md text-title-md text-on-surface uppercase tracking-wider">Shift Performance</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Today (Until 02:00 AM)</span>
+</div>
+<!-- Grid of Metric Cards -->
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Card 1: Total Sales -->
+<div class="bg-surface-container-low rounded-xl p-space-sm relative overflow-hidden shadow-sm flex flex-col justify-between">
+<div class="absolute -right-4 -bottom-4 w-16 h-16 rounded-full bg-primary/5 blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Today's Sales</span>
+<span class="material-symbols-outlined text-primary text-[18px]">payments</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-primary font-bold tracking-tight">Rs. 148,500</div>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-primary text-[14px]">trending_up</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">+18%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">vs yesterday</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Active Live Orders -->
+<div class="bg-surface-container-low rounded-xl p-space-sm relative overflow-hidden shadow-sm flex flex-col justify-between">
+<div class="absolute -right-4 -bottom-4 w-16 h-16 rounded-full bg-secondary-container/20 blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Active Queue</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">local_fire_department</span>
+</div>
+<div>
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">12</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">In Prep / Delivery</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 mt-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 75%"></div>
+</div>
+</div>
+</div>
+<!-- Card 3: Top Dish -->
+<div class="bg-surface-container-low rounded-xl p-space-sm relative overflow-hidden shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Signature Star</span>
+<span class="material-symbols-outlined text-tertiary text-[18px]">award_star</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface font-semibold truncate">Beef Seekh</div>
+<p class="font-label-sm text-label-sm text-primary-fixed-dim">86 Plates Dispatched</p>
+</div>
+</div>
+<!-- Card 4: Dispatch Rate -->
+<div class="bg-surface-container-low rounded-xl p-space-sm relative overflow-hidden shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">On-Time Rate</span>
+<span class="material-symbols-outlined text-primary text-[18px]">timelapse</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold">98.4%</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Avg Sigdi: 14 mins</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Live Order Feed Module -->
+<section class="px-gutter-mobile pt-space-lg">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary-container animate-ping"></div>
+<h2 class="font-title-md text-title-md text-primary font-bold uppercase tracking-wider">Live KOT &amp; Orders</h2>
+</div>
+<span class="bg-surface-container-high text-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">3 Urgent</span>
+</div>
+<!-- Live Orders Stack -->
+<div class="space-y-space-sm" id="orderCardsContainer">
+<!-- Order 1: On Grill -->
+<div class="bg-surface-container-low rounded-xl p-space-sm shadow-md transition-all">
+<div class="flex items-center justify-between pb-2 mb-2 bg-surface-container/40 rounded-lg p-2">
+<div class="flex items-center gap-2 min-w-0">
+<span class="font-title-md text-title-md text-primary font-bold">#FKH-1048</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">14 mins ago</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="bg-surface-container-highest text-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-primary">skillet</span>
+              Cooking on Grill
+            </span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-2 leading-relaxed">
+<span class="font-semibold text-primary-fixed">4x</span> Beef Seekh Kabaab, <span class="font-semibold text-primary-fixed">2x</span> Malai Boti, <span class="font-semibold text-primary-fixed">4x</span> Roghni Naan
+        </p>
+<div class="flex items-center justify-between pt-1">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Total Bill</span>
+<span class="font-title-md text-title-md text-primary font-bold">Rs. 4,800</span>
+</div>
+<div class="flex items-center gap-2">
+<!-- Quick Status Change Dropdown Selector -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-high text-on-surface font-label-sm text-label-sm pl-2.5 pr-7 py-2 rounded-lg cursor-pointer focus:outline-none focus:bg-surface-bright">
+<option value="received">Received</option>
+<option selected="" value="grill">On Grill</option>
+<option value="delivery">Out for Delivery</option>
+<option value="completed">Completed</option>
+</select>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+</div>
+<button aria-label="Print KOT Slip" class="w-9 h-9 rounded-lg bg-surface-container-high hover:bg-surface-bright text-primary flex items-center justify-center active:scale-95" title="Print KOT Slip">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Order 2: New WhatsApp Order -->
+<div class="bg-surface-container-low rounded-xl p-space-sm shadow-md transition-all">
+<div class="flex items-center justify-between pb-2 mb-2 bg-surface-container/40 rounded-lg p-2">
+<div class="flex items-center gap-2 min-w-0">
+<span class="font-title-md text-title-md text-secondary font-bold">#FKH-1049</span>
+<span class="bg-[#25D366]/20 text-[#25D366] font-label-sm text-label-sm px-1.5 py-0.5 rounded font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">chat</span> WhatsApp
+            </span>
+</div>
+<span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1 animate-pulse">
+<span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+            Incoming
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-2 leading-relaxed">
+<span class="font-semibold text-primary-fixed">1x</span> Chicken Karahi (Full Dumba Cut), <span class="font-semibold text-primary-fixed">6x</span> Tandoori Naan
+        </p>
+<div class="flex items-center justify-between pt-1">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Online Pre-order</span>
+<span class="font-title-md text-title-md text-primary font-bold">Rs. 3,310</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-bright font-label-sm text-label-sm flex items-center gap-1 active:scale-95" onclick="printKotReceipt('FKH-1049')">
+<span class="material-symbols-outlined text-[16px] text-primary">print</span>
+<span>KOT</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold shadow-md hover:bg-primary-container active:scale-95 transition-all flex items-center gap-1" onclick="acceptOrder('FKH-1049', this)">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Accept</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Order 3: Out with Rider -->
+<div class="bg-surface-container-low rounded-xl p-space-sm shadow-md transition-all">
+<div class="flex items-center justify-between pb-2 mb-2 bg-surface-container/40 rounded-lg p-2">
+<div class="flex items-center gap-2 min-w-0">
+<span class="font-title-md text-title-md text-on-surface font-bold">#FKH-1050</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">COD Cash</span>
+</div>
+<span class="bg-surface-container-highest text-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-primary">two_wheeler</span>
+            Out with Rider
+          </span>
+</div>
+<div class="flex items-center gap-2 mb-2 bg-surface-container-high/50 p-2 rounded-lg">
+<div class="w-7 h-7 rounded-full bg-surface-bright flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[16px]">person_pin_circle</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="font-label-sm text-label-sm text-on-surface font-semibold truncate">Rider: Tariq Khan (+92 333 4581290)</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant truncate">Destination: DHA Phase 5 • En route</div>
+</div>
+<a aria-label="Call Rider" class="w-7 h-7 rounded-full bg-primary/20 text-primary flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors" href="tel:+923334581290">
+<span class="material-symbols-outlined text-[14px]">call</span>
+</a>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">To Collect</span>
+<span class="font-title-md text-title-md text-primary font-bold">Rs. 1,850</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">ETA: 12 min</span>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold hover:bg-surface-bright active:scale-95">Track</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Menu & Live Price Management (CRUD) -->
+<section class="px-gutter-mobile pt-space-lg">
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<h2 class="font-title-md text-title-md text-primary font-bold uppercase tracking-wider">Live Sigdi Menu &amp; Rates</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Real-time inventory and pricing overrides</p>
+</div>
+<button class="px-3 py-2 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold flex items-center gap-1 shadow-md hover:bg-primary-container active:scale-95 transition-all" onclick="toggleModal('newDishModal', true)">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Add Dish</span>
+</button>
+</div>
+<!-- Category Tabs Filter -->
+<div class="flex gap-1.5 overflow-x-auto pb-2 scrollbar-none">
+<button class="menu-cat-btn px-3.5 py-1.5 rounded-full font-label-sm text-label-sm bg-primary text-on-primary font-semibold whitespace-nowrap active:scale-95" data-category="all">All Items</button>
+<button class="menu-cat-btn px-3.5 py-1.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface hover:text-primary whitespace-nowrap active:scale-95" data-category="bbq">Sigdi BBQ</button>
+<button class="menu-cat-btn px-3.5 py-1.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface hover:text-primary whitespace-nowrap active:scale-95" data-category="karahi">Karahi &amp; Gravies</button>
+<button class="menu-cat-btn px-3.5 py-1.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface hover:text-primary whitespace-nowrap active:scale-95" data-category="tandoor">Tandoor &amp; Sides</button>
+</div>
+<!-- Dish List Items -->
+<div class="space-y-space-xs mt-space-sm" id="dishListContainer">
+<!-- Dish 1 -->
+<div class="dish-item bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm shadow-sm" data-category="bbq" id="dish-row-1">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest relative">
+<img class="w-full h-full object-cover" data-alt="Traditional Pakistani charred minced beef seekh kabaabs roasting slowly over red hot glowing sigdi charcoals, garnished with fresh mint coriander and sliced red onions, dramatic warm dark moody culinary photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYgicV56i41UGvxyLmNBNnIrUvChTCltqMH1FM-jMCgTudwsMM2ub0GVhM3s313-uJDMqYkSfQi1haI6zc_D2Vqb8icRZphlEfdQZ_mC8_UpHLM8yOUdMw73JbchaokT1P4sfEeaOq1bMfcOTlfjYEiO0j-1wFz6V1ESQ7lJRlVTBCzFx7vk59JCBuum_Zvkb8O48amK3-bLcmAX2pxOISQsQXZ2msLzFCoIoKEBzl"/>
+<span class="absolute bottom-0 inset-x-0 bg-secondary-container/90 text-on-secondary-container text-[8px] font-bold text-center py-0.2">HOT</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold truncate">Beef Seekh Kabaab</h3>
+<span class="material-symbols-outlined text-[14px] text-secondary">local_fire_department</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">PKR</span>
+<span class="font-title-md text-title-md text-primary font-bold dish-price" id="price-val-1">890</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<!-- Toggle Stock -->
+<label class="relative inline-flex items-center cursor-pointer" title="In Stock Toggle">
+<input checked="" class="sr-only peer" onchange="toggleDishStock(1, this.checked)" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<!-- Quick Edit Pen -->
+<button aria-label="Edit Price" class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-primary flex items-center justify-center active:scale-95" onclick="promptPriceEdit(1, 'Beef Seekh Kabaab', 890)">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<!-- Delete Trash -->
+<button aria-label="Delete Dish" class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-error-container text-on-surface-variant hover:text-error flex items-center justify-center active:scale-95" onclick="deleteDish(1)">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Dish 2 -->
+<div class="dish-item bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm shadow-sm" data-category="bbq" id="dish-row-2">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest relative">
+<img class="w-full h-full object-cover" data-alt="Succulent boneless chicken malai boti skewers marinated in rich clotted malai cream green chilies and mild cardamom smoked to perfection with delicate charred grill marks, regal dark slate background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbg4KUV08NgeUV2reqjodZ1jawjg1K4kZ9XcircjkzKt6dUzI0KSac_wSrzrXXvt6WtVDGVr5L9XlM8yFJzCoxYRn831sLj5kw8tt3UIWCFMtIw_yFrI7qhNXkd1E2Bs77lyEmrLcQpvI6tZiSDyiElaA0IMHSwHXtj8k0HrBijze1cwNBSaxIO66RE5G4w5Pkl_G146acc1lUC8huE3c_SeEcUOSrbnV-kpMJMqzg"/>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold truncate">Chicken Malai Boti</h3>
+<span class="material-symbols-outlined text-[14px] text-tertiary">spa</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">PKR</span>
+<span class="font-title-md text-title-md text-primary font-bold dish-price" id="price-val-2">950</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<label class="relative inline-flex items-center cursor-pointer" title="In Stock Toggle">
+<input checked="" class="sr-only peer" onchange="toggleDishStock(2, this.checked)" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<button aria-label="Edit Price" class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-primary flex items-center justify-center active:scale-95" onclick="promptPriceEdit(2, 'Chicken Malai Boti', 950)">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button aria-label="Delete Dish" class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-error-container text-on-surface-variant hover:text-error flex items-center justify-center active:scale-95" onclick="deleteDish(2)">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Dish 3 -->
+<div class="dish-item bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm shadow-sm" data-category="karahi" id="dish-row-3">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest relative">
+<img class="w-full h-full object-cover" data-alt="Traditional Pakistani black cast iron wok filled with simmering Mutton Shinwari Karahi, aromatic mutton gravy topped with julienned fresh ginger, slit green chilies and pure desi ghee, amber fire background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8Ie5V3Ot3bf15ZnIgeGWekzrGFoj3C84vIDEgMLCT_XUcfu3bc-MQ9KQZmuhwuh94aLuaGfqiUaD_4n1lhGx40N0wxhLlcO92DdIdrfmI5YJsaidZh9KTQRxy6pIm-hjvLa1dBHncN5NZIb6LgMFhJrkJI80SwH_cfhgVDY1DTtzUWYaC7lWir7S6JWUoPnN0BFZhFmlXUXL2j1zwRKIHIu8d3YaCk9VgAcjbKXs4"/>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold truncate">Mutton Karahi (Full)</h3>
+<span class="material-symbols-outlined text-[14px] text-primary">local_fire_department</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">PKR</span>
+<span class="font-title-md text-title-md text-primary font-bold dish-price" id="price-val-3">4,600</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<label class="relative inline-flex items-center cursor-pointer" title="In Stock Toggle">
+<input checked="" class="sr-only peer" onchange="toggleDishStock(3, this.checked)" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<button aria-label="Edit Price" class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-primary flex items-center justify-center active:scale-95" onclick="promptPriceEdit(3, 'Mutton Karahi (Full)', 4600)">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button aria-label="Delete Dish" class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-error-container text-on-surface-variant hover:text-error flex items-center justify-center active:scale-95" onclick="deleteDish(3)">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Dish 4 -->
+<div class="dish-item bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm shadow-sm" data-category="tandoor" id="dish-row-4">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest relative">
+<img class="w-full h-full object-cover" data-alt="Golden crisp flaky layered multi-fold Laccha Paratha fresh from hot tandoor oven brushed generously with melted golden butter, resting on a brass plate with dark charcoal table backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeG4FbCxx0n_jFzSEsJkj6S681WeYWgurMIiLNosKDKrAeztVTOyLyBDp4O_K-qcBRSwAXNOGyg4Ly-vRplGSNK8bhwJLgyQRGFGGdAvddYiXZG27YKeers8dh0g9StwTa5lq_oe1QSEMOuve_QD-hD_1fjrXAMRPg1B_EC8OldzxfGiSLNedcZxz9pwEdmoJFFoo_93KPaqfo-NsoVpWa_3hTYpBncdMuDSLFe_28"/>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5">
+<h3 class="font-title-md text-title-md text-on-surface font-semibold truncate">Laccha Paratha</h3>
+<span class="material-symbols-outlined text-[14px] text-tertiary">bakery_dining</span>
+</div>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">PKR</span>
+<span class="font-title-md text-title-md text-primary font-bold dish-price" id="price-val-4">140</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<label class="relative inline-flex items-center cursor-pointer" title="In Stock Toggle">
+<input checked="" class="sr-only peer" onchange="toggleDishStock(4, this.checked)" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<button aria-label="Edit Price" class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-primary flex items-center justify-center active:scale-95" onclick="promptPriceEdit(4, 'Laccha Paratha', 140)">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button aria-label="Delete Dish" class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-error-container text-on-surface-variant hover:text-error flex items-center justify-center active:scale-95" onclick="deleteDish(4)">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Promotions & Discount Engine -->
+<section class="px-gutter-mobile pt-space-lg">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">loyalty</span>
+<h2 class="font-title-md text-title-md text-primary font-bold uppercase tracking-wider">Promotions Engine</h2>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-high text-primary hover:bg-surface-bright font-label-sm text-label-sm font-semibold flex items-center gap-1 active:scale-95" onclick="toggleModal('newPromoModal', true)">
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+<span>New Code</span>
+</button>
+</div>
+<!-- Active Promo Voucher Card -->
+<div class="bg-gradient-to-r from-surface-container-low via-surface-container to-surface-container-low p-space-sm rounded-xl relative overflow-hidden shadow-md">
+<div class="flex items-start justify-between">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-primary tracking-wider font-bold">MUGHAL20</span>
+<span class="bg-primary/20 text-primary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">Active</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">20% Flat Discount on Mughlai Family Platters</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">event_repeat</span> Valid until Sunday Midnight • 142 redemptions
+          </p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-8 h-4 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary"></div>
+</label>
+<button class="text-on-surface-variant hover:text-error text-[18px] p-1" title="Delete Voucher">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. Restaurant Configuration & Operations Settings Form -->
+<section class="px-gutter-mobile pt-space-lg mb-space-lg">
+<div class="flex items-center gap-2 mb-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">store</span>
+<div>
+<h2 class="font-title-md text-title-md text-primary font-bold uppercase tracking-wider">Branch &amp; Dispatch Setup</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Burns Road Central Kitchen Dispatch</p>
+</div>
+</div>
+<form class="bg-surface-container-low rounded-xl p-space-sm space-y-space-sm shadow-md" id="restaurantConfigForm" onsubmit="event.preventDefault(); saveConfig();">
+<!-- Contact Numbers -->
+<div class="grid grid-cols-1 gap-space-sm">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Primary Restaurant Landline / Mobile</label>
+<div class="flex items-center bg-surface-container-high rounded-lg px-3 py-2 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[18px] mr-2">phone</span>
+<input class="bg-transparent w-full text-on-surface font-body-md text-body-md focus:outline-none" type="text" value="+92 21 32624589"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">WhatsApp Live Ordering Line</label>
+<div class="flex items-center bg-surface-container-high rounded-lg px-3 py-2 text-on-surface">
+<span class="material-symbols-outlined text-[#25D366] text-[18px] mr-2">chat</span>
+<input class="bg-transparent w-full text-on-surface font-body-md text-body-md focus:outline-none" type="text" value="+92 300 1234567"/>
+</div>
+</div>
+</div>
+<!-- Hours & Radius Grid -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Operating Hours</label>
+<div class="flex items-center bg-surface-container-high rounded-lg px-2.5 py-2 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px] mr-1.5">schedule</span>
+<input class="bg-transparent w-full text-on-surface font-label-sm text-label-sm focus:outline-none" type="text" value="12 PM - 02 AM"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Delivery Radius</label>
+<div class="flex items-center bg-surface-container-high rounded-lg px-2.5 py-2 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px] mr-1.5">radar</span>
+<input class="bg-transparent w-full text-on-surface font-label-sm text-label-sm focus:outline-none" type="text" value="14.5 km"/>
+</div>
+</div>
+</div>
+<!-- Delivery Fee & Coordinates -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Base Delivery Fee</label>
+<div class="flex items-center bg-surface-container-high rounded-lg px-2.5 py-2 text-on-surface">
+<span class="font-label-sm text-label-sm text-primary font-bold mr-1.5">PKR</span>
+<input class="bg-transparent w-full text-on-surface font-label-sm text-label-sm focus:outline-none" type="number" value="180"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">GPS Coordinates</label>
+<div class="flex items-center bg-surface-container-high rounded-lg px-2.5 py-2 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px] mr-1.5">pin_drop</span>
+<input class="bg-transparent w-full text-on-surface font-label-sm text-label-sm focus:outline-none" type="text" value="24.8582, 67.0142"/>
+</div>
+</div>
+</div>
+<!-- Google Static Map Coordinates Preview Container -->
+<div class="pt-1">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Kitchen Geofence Zone</label>
+<div class="w-full h-28 bg-cover bg-center rounded-lg relative overflow-hidden flex items-end p-2 shadow-inner" data-location="Burns Road, Karachi, Pakistan" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClMV5TDTrnNeXyyXkTSPE9mtrrK8V1kzoA1veKTs-b0Sb5ovD7axFD1YGMTASjfEQ6ep4qw6hE7QAkUQay8Wevt3QyfZ3S2YpLOEH1yuurheviUh7mf6kwdHDBrvYvXX-puAtvLqR_osuAv8BRPcLX_hDtJA5Q6m9YY1WaK8nL-9XcsdLnMPr8qcXlZkqzAGN0wBjWTv4UcHrZNyjO7VGBt4p1j_3--HsQtiTbPB6h')">
+<div class="bg-surface-container-lowest/80 backdrop-blur-md px-2.5 py-1 rounded text-primary font-label-sm text-label-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">my_location</span>
+            Burns Road BBQ Hub • Radius active
+          </div>
+</div>
+</div>
+<!-- Submit Action Button -->
+<div class="pt-2">
+<button class="w-full py-3 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg font-bold shadow-lg hover:bg-primary-container active:scale-[0.99] transition-all flex items-center justify-center gap-2" id="saveConfigBtn" type="submit">
+<span class="material-symbols-outlined text-[20px]">save</span>
+<span>Save Operational Parameters</span>
+</button>
+</div>
+</form>
+</section>
+<!-- MODAL: Add New Menu Dish -->
+<div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center hidden" id="newDishModal">
+<div class="bg-surface-container-low w-full max-w-lg rounded-t-2xl sm:rounded-2xl p-gutter-mobile shadow-2xl max-h-[795px] overflow-y-auto">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">restaurant</span>
+<h3 class="font-title-lg text-title-lg text-primary font-bold">Add Royal Dish</h3>
+</div>
+<button aria-label="Close" class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center" onclick="toggleModal('newDishModal', false)">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<form class="space-y-space-sm" id="newDishForm" onsubmit="handleCreateDish(event)">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Dish Name</label>
+<input class="w-full bg-surface-container-high text-on-surface px-3 py-2.5 rounded-lg focus:outline-none focus:bg-surface-bright font-body-md text-body-md" id="modalDishName" placeholder="e.g. Royal Reshmi Handi" required="" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Category</label>
+<select class="w-full bg-surface-container-high text-on-surface px-3 py-2.5 rounded-lg focus:outline-none font-body-md text-body-md" id="modalDishCat">
+<option value="bbq">Sigdi BBQ</option>
+<option value="karahi">Karahi &amp; Gravies</option>
+<option value="tandoor">Tandoor &amp; Sides</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Price (PKR)</label>
+<input class="w-full bg-surface-container-high text-on-surface px-3 py-2.5 rounded-lg focus:outline-none focus:bg-surface-bright font-body-md text-body-md" id="modalDishPrice" placeholder="1250" required="" type="number"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Spice Intensity Tier</label>
+<select class="w-full bg-surface-container-high text-on-surface px-3 py-2.5 rounded-lg focus:outline-none font-body-md text-body-md" id="modalDishSpice">
+<option value="mild">Mild &amp; Velvety (Cardamom / Malai)</option>
+<option selected="" value="medium">Peshawari Royal Heat (Black Pepper)</option>
+<option value="hot">Angara Koyla Flame (Extra Green Chili)</option>
+</select>
+</div>
+<!-- Simulated Image Uploader Box -->
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Culinary Photography Preview</label>
+<div class="bg-surface-container-high rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-primary text-[32px] mb-1">add_a_photo</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Tap to select food image</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">High contrast dark food photography recommended</span>
+</div>
+</div>
+<div class="flex items-center justify-between py-1">
+<span class="font-label-sm text-label-sm text-on-surface font-medium">Instantly Publish to Live App</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="modalDishActive" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex gap-2 pt-2">
+<button class="w-1/2 py-2.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold" onclick="toggleModal('newDishModal', false)" type="button">Cancel</button>
+<button class="w-1/2 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold hover:bg-primary-container shadow-md" type="submit">Add to Menu</button>
+</div>
+</form>
+</div>
+</div>
+<!-- MODAL: Add New Promo Voucher -->
+<div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center hidden" id="newPromoModal">
+<div class="bg-surface-container-low w-full max-w-lg rounded-t-2xl sm:rounded-2xl p-gutter-mobile shadow-2xl">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">confirmation_number</span>
+<h3 class="font-title-lg text-title-lg text-primary font-bold">Issue Promo Coupon</h3>
+</div>
+<button aria-label="Close" class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center" onclick="toggleModal('newPromoModal', false)">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<form class="space-y-space-sm" onsubmit="handleCreatePromo(event)">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Coupon Code</label>
+<input class="w-full uppercase tracking-widest bg-surface-container-high text-primary font-bold px-3 py-2.5 rounded-lg focus:outline-none focus:bg-surface-bright font-body-md text-body-md" placeholder="e.g. KABAB15" required="" type="text" uppercase=""/>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Discount Type</label>
+<select class="w-full bg-surface-container-high text-on-surface px-3 py-2.5 rounded-lg focus:outline-none font-body-md text-body-md">
+<option value="percent">Percentage (%)</option>
+<option value="fixed">Fixed PKR Off</option>
+</select>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 font-semibold">Discount Value</label>
+<input class="w-full bg-surface-container-high text-on-surface px-3 py-2.5 rounded-lg focus:outline-none font-body-md text-body-md" placeholder="15" required="" type="number"/>
+</div>
+</div>
+<div class="flex gap-2 pt-2">
+<button class="w-1/2 py-2.5 rounded-lg bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold" onclick="toggleModal('newPromoModal', false)" type="button">Dismiss</button>
+<button class="w-1/2 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold hover:bg-primary-container shadow-md" type="submit">Activate Voucher</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Notification Toast Component -->
+<div class="fixed top-24 right-4 z-50 transform translate-x-full transition-transform duration-300 bg-surface-container-highest text-primary px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2" id="actionToast">
+<span class="material-symbols-outlined text-[20px]" id="toastIcon">check_circle</span>
+<span class="font-label-sm text-label-sm font-semibold" id="toastMessage">Action completed successfully</span>
+</div>
+</div>
+<script>
+  // Filter Menu Dishes by Category
+  document.querySelectorAll('.menu-cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.menu-cat-btn').forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'font-semibold');
+        b.classList.add('bg-surface-container-high', 'text-on-surface');
+      });
+      btn.classList.add('bg-primary', 'text-on-primary', 'font-semibold');
+      btn.classList.remove('bg-surface-container-high', 'text-on-surface');
+
+      const cat = btn.getAttribute('data-category');
+      const rows = document.querySelectorAll('.dish-item');
+      rows.forEach(row => {
+        if (cat === 'all' || row.getAttribute('data-category') === cat) {
+          row.style.display = 'flex';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Modal Control
+  function toggleModal(modalId, show) {
+    const el = document.getElementById(modalId);
+    if (show) {
+      el.classList.remove('hidden');
+    } else {
+      el.classList.add('hidden');
+    }
+  }
+
+  // Toast Trigger
+  function showToast(message, icon = 'check_circle') {
+    const toast = document.getElementById('actionToast');
+    const toastMsg = document.getElementById('toastMessage');
+    const toastIcon = document.getElementById('toastIcon');
+    toastMsg.textContent = message;
+    toastIcon.textContent = icon;
+    toast.classList.remove('translate-x-full');
+    setTimeout(() => {
+      toast.classList.add('translate-x-full');
+    }, 2800);
+  }
+
+  // Accept Order Micro-Interaction
+  function acceptOrder(orderId, btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<span class="material-symbols-outlined text-[16px] animate-spin">progress_activity</span> In Kitchen`;
+    btn.classList.remove('bg-primary');
+    btn.classList.add('bg-surface-container-high', 'text-primary');
+    showToast(`Order #${orderId} accepted & sent to charcoal hearth!`);
+  }
+
+  // Print KOT Slip Simulation
+  function printKotReceipt(orderId) {
+    showToast(`KOT receipt sent to Burns Rd Tandoor printer #${orderId}`, 'print');
+  }
+
+  // Stock Toggle
+  function toggleDishStock(id, isAvailable) {
+    const msg = isAvailable ? `Item is marked Available` : `Item marked Out of Stock`;
+    showToast(msg, isAvailable ? 'check_circle' : 'block');
+  }
+
+  // Quick Price Edit
+  function promptPriceEdit(id, dishName, currentPrice) {
+    const newPrice = prompt(`Enter new PKR price for ${dishName}:`, currentPrice);
+    if (newPrice !== null && !isNaN(newPrice) && newPrice.trim() !== '') {
+      document.getElementById(`price-val-${id}`).innerText = Number(newPrice).toLocaleString();
+      showToast(`Updated ${dishName} rate to PKR ${newPrice}`);
+    }
+  }
+
+  // Delete Dish
+  function deleteDish(id) {
+    if (confirm("Remove this traditional dish from the active digital menu?")) {
+      const row = document.getElementById(`dish-row-${id}`);
+      if (row) {
+        row.style.opacity = '0';
+        setTimeout(() => row.remove(), 250);
+        showToast("Dish removed from menu");
+      }
+    }
+  }
+
+  // Create Dish Handler
+  function handleCreateDish(e) {
+    e.preventDefault();
+    const name = document.getElementById('modalDishName').value;
+    const price = document.getElementById('modalDishPrice').value;
+    const cat = document.getElementById('modalDishCat').value;
+
+    const list = document.getElementById('dishListContainer');
+    const newId = Date.now();
+
+    const row = document.createElement('div');
+    row.className = 'dish-item bg-surface-container-low p-space-sm rounded-xl flex items-center justify-between gap-space-sm shadow-sm';
+    row.setAttribute('data-category', cat);
+    row.id = `dish-row-${newId}`;
+    row.innerHTML = `
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest relative">
+          <img src="placeholder" data-alt="Pakistani gourmet dish freshly cooked with aromatic herbs and melted ghee on a rustic charcoal dining table" class="w-full h-full object-cover">
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5">
+            <h3 class="font-title-md text-title-md text-on-surface font-semibold truncate">${name}</h3>
+            <span class="material-symbols-outlined text-[14px] text-primary">flare</span>
+          </div>
+          <div class="flex items-center gap-2 mt-0.5">
+            <span class="font-label-sm text-label-sm text-on-surface-variant">PKR</span>
+            <span class="font-title-md text-title-md text-primary font-bold dish-price" id="price-val-${newId}">${Number(price).toLocaleString()}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" checked class="sr-only peer" onchange="toggleDishStock('${newId}', this.checked)">
+          <div class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+        </label>
+        <button class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-primary flex items-center justify-center" onclick="promptPriceEdit('${newId}', '${name}', ${price})">
+          <span class="material-symbols-outlined text-[16px]">edit</span>
+        </button>
+        <button class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-error-container text-on-surface-variant hover:text-error flex items-center justify-center" onclick="deleteDish('${newId}')">
+          <span class="material-symbols-outlined text-[16px]">delete</span>
+        </button>
+      </div>
+    `;
+
+    list.prepend(row);
+    toggleModal('newDishModal', false);
+    showToast(`Added "${name}" to royal menu!`);
+    e.target.reset();
+  }
+
+  // Create Promo Handler
+  function handleCreatePromo(e) {
+    e.preventDefault();
+    toggleModal('newPromoModal', false);
+    showToast("Voucher activated and synchronized with checkout");
+    e.target.reset();
+  }
+
+  // Save Configuration Handler
+  function saveConfig() {
+    const btn = document.getElementById('saveConfigBtn');
+    btn.innerHTML = `<span class="material-symbols-outlined text-[20px] animate-spin">progress_activity</span> Saving Settings...`;
+    setTimeout(() => {
+      btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">check</span> Operational Parameters Saved`;
+      showToast("Kitchen & dispatch settings updated successfully");
+      setTimeout(() => {
+        btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">save</span> Save Operational Parameters`;
+      }, 2000);
+    }, 600);
+  }
+
+  // Sync / Refresh micro-interaction
+  const refreshBtn = document.getElementById('refreshOrdersBtn');
+  const refreshIcon = document.getElementById('refreshIcon');
+  if (refreshBtn && refreshIcon) {
+    refreshBtn.addEventListener('click', () => {
+      refreshIcon.classList.add('animate-spin');
+      setTimeout(() => {
+        refreshIcon.classList.remove('animate-spin');
+        showToast("Live orders queue up to date");
+      }, 700);
+    });
+  }
+</script><footer class="mt-space-xl px-gutter-mobile pb-space-lg flex flex-col items-center text-center"><div class="w-full flex items-center justify-center gap-space-sm mb-space-md opacity-40"><div class="h-px w-16 bg-gradient-to-r from-transparent to-primary"></div><span class="material-symbols-outlined text-primary text-[16px]">flare</span><div class="h-px w-16 bg-gradient-to-l from-transparent to-primary"></div></div><p class="font-headline-sm text-title-md text-primary mb-space-xs">A Royal Legacy of Smoked Perfection</p><p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs mb-space-md">Slow-cooked sigdi charcoal delicacies, aromatic karahis, and inherited spice secrets since 1978.</p><div class="flex flex-col gap-1 mb-space-md"><span class="font-label-md text-label-md text-on-surface font-semibold flex items-center justify-center gap-1"><span class="material-symbols-outlined text-primary text-[16px]">schedule</span> Daily 12:00 PM - 2:00 AM</span><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center justify-center gap-1"><span class="material-symbols-outlined text-primary text-[16px]">location_on</span> Food Street, Burns Road, Karachi</span></div><p class="font-label-sm text-label-sm text-outline uppercase tracking-wider">© 2024 Fayyaz Kabaab House. All Rights Reserved.</p></footer></main><a aria-label="WhatsApp Quick Order" class="fixed bottom-24 right-4 z-40 w-12 h-12 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_8px_24px_rgba(0,0,0,0.45)] hover:scale-105 active:scale-95 transition-transform" href="https://wa.me/923000000000"><span class="material-symbols-outlined text-[24px]">chat</span><span class="absolute -top-1 -right-1 bg-secondary-container text-on-secondary-container text-[9px] font-bold px-1.5 py-0.5 rounded-full ring-2 ring-surface">ORDER</span></a><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,0,0,0.6)]" data-active-classes="text-primary"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center w-16 h-14 text-on-surface-variant hover:text-on-surface transition-colors gap-0.5" data-path="home" href="#"><span class="material-symbols-outlined text-[22px]">local_fire_department</span><span class="font-label-sm text-label-sm tracking-tight">Home</span></a><a class="flex flex-col items-center justify-center w-16 h-14 text-on-surface-variant hover:text-on-surface transition-colors gap-0.5" data-path="menu-bbq" href="#"><span class="material-symbols-outlined text-[22px]">restaurant_menu</span><span class="font-label-sm text-label-sm tracking-tight">Menu &amp; BBQ</span></a><a class="flex flex-col items-center justify-center w-16 h-14 text-on-surface-variant hover:text-on-surface transition-colors gap-0.5 relative" data-path="cart-order" href="#"><div class="relative flex items-center justify-center"><span class="material-symbols-outlined text-[22px]">shopping_bag</span><span class="absolute -top-1.5 -right-2.5 bg-primary text-on-primary font-bold text-[10px] w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-surface-container-lowest">3</span></div><span class="font-label-sm text-label-sm tracking-tight">My Order</span></a><a aria-current="page" class="flex flex-col items-center justify-center w-16 h-14 transition-colors gap-0.5 text-primary" data-path="admin-panel" href="#"><span class="material-symbols-outlined text-[22px]">shield</span><span class="font-label-sm text-label-sm tracking-tight">Admin</span></a></div></nav></body></html>

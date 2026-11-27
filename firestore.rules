@@ -1,0 +1,350 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net: Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Hardened Global Primitives
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidTrackingTokenId(id) {
+      return id is string && id.size() >= 20 && id.size() <= 80 && id.matches('^FKH-[0-9]{6}-[A-F0-9]{12,32}$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isBootstrappedAdminEmail() {
+      return isVerifiedUser() && request.auth.token.email == 'orgqfn@gmail.com';
+    }
+
+    // Trusted Admin RBAC: verifies Firebase Custom Claims, bootstrapped admin email, or admins directory
+    function isAdmin() {
+      return isVerifiedUser() && (
+        request.auth.token.admin == true ||
+        request.auth.token.email == 'orgqfn@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // 3. Entity Validation Blueprints
+    function isValidAdminUser(data, docId) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt']) &&
+        data.keys().hasOnly(['uid', 'email', 'name', 'createdAt']) &&
+        data.uid is string && data.uid == docId && data.uid.size() >= 1 && data.uid.size() <= 128 &&
+        data.email is string && data.email.size() >= 3 && data.email.size() <= 200 &&
+        (!('name' in data) || (data.name is string && data.name.size() <= 120)) &&
+        data.createdAt is timestamp;
+    }
+
+    function isValidUser(data, docId) {
+      return data.keys().hasAll(['userId', 'name', 'email', 'role', 'createdAt']) &&
+        data.keys().hasOnly(['userId', 'name', 'email', 'phone', 'role', 'createdAt']) &&
+        data.userId is string && data.userId == docId && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+        data.name is string && data.name.size() >= 1 && data.name.size() <= 120 &&
+        data.email is string && data.email.size() >= 3 && data.email.size() <= 200 &&
+        (!('phone' in data) || (data.phone is string && data.phone.size() <= 30)) &&
+        data.role in ['customer', 'admin'] &&
+        data.createdAt is timestamp;
+    }
+
+    function isValidCategory(data, docId) {
+      return data.keys().hasAll(['categoryId', 'categoryName', 'isActive', 'createdAt']) &&
+        data.keys().hasOnly(['categoryId', 'categoryName', 'description', 'image', 'isActive', 'displayOrder', 'createdAt']) &&
+        data.categoryId is string && data.categoryId == docId && data.categoryId.size() >= 1 && data.categoryId.size() <= 64 &&
+        data.categoryName is string && data.categoryName.size() >= 1 && data.categoryName.size() <= 80 &&
+        (!('description' in data) || (data.description is string && data.description.size() <= 300)) &&
+        (!('image' in data) || (data.image is string && data.image.size() <= 1200)) &&
+        data.isActive is bool &&
+        (!('displayOrder' in data) || (data.displayOrder is number && data.displayOrder >= 0 && data.displayOrder <= 1000)) &&
+        data.createdAt is timestamp;
+    }
+
+    function isValidMenuItem(data, docId) {
+      return data.keys().hasAll(['itemId', 'name', 'description', 'categoryId', 'price', 'availability', 'featured', 'createdAt', 'updatedAt']) &&
+        data.keys().hasOnly([
+          'itemId', 'name', 'urduTitle', 'description', 'portionLabel', 'categoryId',
+          'spice', 'spiceLabel', 'price', 'imageUrl', 'availability', 'featured',
+          'badge', 'badgeVariant', 'homeCategory', 'variants', 'createdAt', 'updatedAt'
+        ]) &&
+        data.itemId is string && data.itemId == docId && data.itemId.size() >= 1 && data.itemId.size() <= 128 &&
+        data.name is string && data.name.size() >= 1 && data.name.size() <= 140 &&
+        (!('urduTitle' in data) || (data.urduTitle is string && data.urduTitle.size() <= 140)) &&
+        data.description is string && data.description.size() <= 600 &&
+        (!('portionLabel' in data) || (data.portionLabel is string && data.portionLabel.size() <= 100)) &&
+        data.categoryId is string && data.categoryId.size() >= 1 && data.categoryId.size() <= 64 &&
+        (!('spice' in data) || data.spice in ['mild', 'medium', 'spicy']) &&
+        (!('spiceLabel' in data) || (data.spiceLabel is string && data.spiceLabel.size() <= 60)) &&
+        data.price is number && data.price > 0 && data.price <= 500000 &&
+        (!('imageUrl' in data) || (data.imageUrl is string && data.imageUrl.size() <= 1200)) &&
+        data.availability is bool &&
+        data.featured is bool &&
+        (!('badge' in data) || (data.badge is string && data.badge.size() <= 60)) &&
+        (!('badgeVariant' in data) || data.badgeVariant in ['primary', 'secondary']) &&
+        (!('homeCategory' in data) || data.homeCategory in ['seekh', 'tikka', 'bihari']) &&
+        (!('variants' in data) || (data.variants is list && data.variants.size() <= 10 && (data.variants.size() == 0 || data.variants[0] is map))) &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidOrderStatus(status) {
+      return status in ['Pending', 'Confirmed', 'Preparing', 'Ready', 'Out for Delivery', 'Delivered', 'Cancelled'];
+    }
+
+    function isValidOrder(data, docId) {
+      return data.keys().hasAll([
+          'orderId', 'trackingToken', 'customerName', 'customerPhone', 'deliveryAddress',
+          'items', 'subtotal', 'discountAmount', 'deliveryCharges', 'taxAmount',
+          'totalAmount', 'paymentMethod', 'orderStatus', 'createdAt', 'updatedAt'
+        ]) &&
+        data.keys().hasOnly([
+          'orderId', 'trackingToken', 'customerName', 'customerPhone', 'deliveryAddress', 'landmark',
+          'items', 'subtotal', 'discountAmount', 'deliveryCharges', 'taxAmount',
+          'totalAmount', 'paymentMethod', 'channel', 'promoCode', 'orderStatus',
+          'orderNotes', 'userId', 'riderName', 'riderPhone', 'etaMinutes',
+          'createdAt', 'updatedAt'
+        ]) &&
+        data.orderId is string && data.orderId == docId && data.orderId.size() >= 1 && data.orderId.size() <= 64 &&
+        isValidTrackingTokenId(data.trackingToken) &&
+        data.customerName is string && data.customerName.size() >= 1 && data.customerName.size() <= 120 &&
+        data.customerPhone is string && data.customerPhone.size() >= 5 && data.customerPhone.size() <= 30 &&
+        data.deliveryAddress is string && data.deliveryAddress.size() >= 3 && data.deliveryAddress.size() <= 400 &&
+        (!('landmark' in data) || (data.landmark is string && data.landmark.size() <= 200)) &&
+        data.items is list && data.items.size() >= 1 && data.items.size() <= 30 &&
+        data.items[0] is map &&
+        data.items[0].keys().hasAll(['title', 'qty', 'price']) &&
+        data.items[0].title is string && data.items[0].title.size() <= 200 &&
+        data.items[0].qty is number && data.items[0].qty >= 1 && data.items[0].qty <= 100 &&
+        data.items[0].price is number && data.items[0].price > 0 && data.items[0].price <= 500000 &&
+        data.subtotal is number && data.subtotal > 0 && data.subtotal <= 2000000 &&
+        data.discountAmount is number && data.discountAmount >= 0 && data.discountAmount <= data.subtotal &&
+        data.deliveryCharges is number && data.deliveryCharges >= 0 && data.deliveryCharges <= 5000 &&
+        data.taxAmount is number && data.taxAmount >= 0 && data.taxAmount <= 200000 &&
+        data.totalAmount is number && data.totalAmount > 0 &&
+        data.totalAmount == (data.subtotal - data.discountAmount) + data.deliveryCharges + data.taxAmount &&
+        data.paymentMethod is string && data.paymentMethod.size() >= 1 && data.paymentMethod.size() <= 80 &&
+        (!('channel' in data) || data.channel in ['whatsapp', 'online', 'cod']) &&
+        (!('promoCode' in data) || (data.promoCode is string && data.promoCode.size() <= 40)) &&
+        isValidOrderStatus(data.orderStatus) &&
+        (!('orderNotes' in data) || (data.orderNotes is string && data.orderNotes.size() <= 400)) &&
+        (!('userId' in data) || (data.userId is string && data.userId.size() <= 128)) &&
+        (!('riderName' in data) || (data.riderName is string && data.riderName.size() <= 120)) &&
+        (!('riderPhone' in data) || (data.riderPhone is string && data.riderPhone.size() <= 30)) &&
+        (!('etaMinutes' in data) || (data.etaMinutes is number && data.etaMinutes >= 0 && data.etaMinutes <= 240)) &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidOrderTracking(data, docId) {
+      return data.keys().hasAll(['orderId', 'trackingToken', 'orderStatus', 'createdAt', 'updatedAt']) &&
+        data.keys().hasOnly(['orderId', 'trackingToken', 'orderStatus', 'etaMinutes', 'userId', 'createdAt', 'updatedAt']) &&
+        data.orderId is string && data.orderId.size() >= 1 && data.orderId.size() <= 64 &&
+        isValidTrackingTokenId(data.trackingToken) && data.trackingToken == docId &&
+        isValidOrderStatus(data.orderStatus) &&
+        (!('etaMinutes' in data) || (data.etaMinutes is number && data.etaMinutes >= 0 && data.etaMinutes <= 240)) &&
+        (!('userId' in data) || (data.userId is string && data.userId.size() <= 128)) &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidOffer(data, docId) {
+      return data.keys().hasAll(['offerId', 'title', 'code', 'description', 'discount', 'discountType', 'isActive', 'createdAt']) &&
+        data.keys().hasOnly(['offerId', 'title', 'code', 'description', 'discount', 'discountType', 'imageUrl', 'startDate', 'endDate', 'redemptions', 'isActive', 'createdAt']) &&
+        data.offerId is string && data.offerId == docId && data.offerId.size() >= 1 && data.offerId.size() <= 64 &&
+        data.title is string && data.title.size() >= 1 && data.title.size() <= 120 &&
+        data.code is string && data.code.size() >= 2 && data.code.size() <= 40 &&
+        data.description is string && data.description.size() <= 300 &&
+        data.discount is number && data.discount > 0 && data.discount <= 100000 &&
+        data.discountType in ['percent', 'fixed'] &&
+        (!('imageUrl' in data) || (data.imageUrl is string && data.imageUrl.size() <= 1200)) &&
+        (!('startDate' in data) || (data.startDate is string && data.startDate.size() <= 60)) &&
+        (!('endDate' in data) || (data.endDate is string && data.endDate.size() <= 60)) &&
+        (!('redemptions' in data) || (data.redemptions is number && data.redemptions >= 0)) &&
+        data.isActive is bool &&
+        data.createdAt is timestamp;
+    }
+
+    function isValidRestaurantSettings(data) {
+      return data.keys().hasAll(['restaurantName', 'phone', 'whatsappNumber', 'address', 'openingHours', 'deliveryCharges', 'minimumOrder', 'updatedAt']) &&
+        data.keys().hasOnly(['restaurantName', 'phone', 'whatsappNumber', 'address', 'openingHours', 'deliveryCharges', 'minimumOrder', 'deliveryRadius', 'gpsCoordinates', 'logoUrl', 'heroBannerUrl', 'updatedAt']) &&
+        data.restaurantName is string && data.restaurantName.size() >= 1 && data.restaurantName.size() <= 120 &&
+        data.phone is string && data.phone.size() >= 5 && data.phone.size() <= 40 &&
+        data.whatsappNumber is string && data.whatsappNumber.size() >= 5 && data.whatsappNumber.size() <= 40 &&
+        data.address is string && data.address.size() >= 3 && data.address.size() <= 300 &&
+        data.openingHours is string && data.openingHours.size() >= 3 && data.openingHours.size() <= 80 &&
+        data.deliveryCharges is number && data.deliveryCharges >= 0 && data.deliveryCharges <= 5000 &&
+        data.minimumOrder is number && data.minimumOrder >= 0 && data.minimumOrder <= 50000 &&
+        (!('deliveryRadius' in data) || (data.deliveryRadius is string && data.deliveryRadius.size() <= 40)) &&
+        (!('gpsCoordinates' in data) || (data.gpsCoordinates is string && data.gpsCoordinates.size() <= 60)) &&
+        (!('logoUrl' in data) || (data.logoUrl is string && data.logoUrl.size() <= 1200)) &&
+        (!('heroBannerUrl' in data) || (data.heroBannerUrl is string && data.heroBannerUrl.size() <= 1200)) &&
+        data.updatedAt is timestamp;
+    }
+
+    // 4. Admin-Only Connection Diagnostic Document
+    match /test/{docId} {
+      allow get, create, update, delete: if isValidId(docId) && isAdmin();
+    }
+
+    // 5. Admins Directory (RBAC Source of Truth)
+    match /admins/{userId} {
+      allow get: if isValidId(userId) && isVerifiedUser() && (request.auth.uid == userId || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isValidId(userId) && isAdmin() && isValidAdminUser(incoming(), userId) && incoming().createdAt == request.time;
+      allow update: if isValidId(userId) && isAdmin() && isValidAdminUser(incoming(), userId) &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['name', 'email']);
+      allow delete: if isValidId(userId) && isBootstrappedAdminEmail() && userId != request.auth.uid;
+    }
+
+    // 6. Users Collection (PII Isolated, No Self-Assigned Admin Role)
+    match /users/{userId} {
+      allow get: if isValidId(userId) && isVerifiedUser() && (request.auth.uid == userId || isAdmin());
+      allow list: if (isVerifiedUser() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create: if isValidId(userId) && isVerifiedUser() &&
+        isValidUser(incoming(), userId) &&
+        incoming().createdAt == request.time &&
+        ((request.auth.uid == userId && incoming().role == 'customer') || isAdmin());
+      allow update: if isValidId(userId) && isVerifiedUser() &&
+        isValidUser(incoming(), userId) &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().userId == existing().userId &&
+        (
+          isAdmin() ||
+          (request.auth.uid == userId && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'phone']))
+        );
+      allow delete: if isValidId(userId) && isAdmin();
+    }
+
+    // 7. Categories Collection (Public reads restricted strictly to active categories)
+    match /categories/{categoryId} {
+      allow get: if isValidId(categoryId) && (isAdmin() || existing().isActive == true);
+      allow list: if resource.data.isActive == true || isAdmin();
+      allow create: if isValidId(categoryId) && isAdmin() &&
+        isValidCategory(incoming(), categoryId) &&
+        incoming().createdAt == request.time;
+      allow update: if isValidId(categoryId) && isAdmin() &&
+        isValidCategory(incoming(), categoryId) &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().categoryId == existing().categoryId &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['categoryName', 'description', 'image', 'isActive', 'displayOrder']);
+      allow delete: if isValidId(categoryId) && isAdmin();
+    }
+
+    // 8. Menu Items Collection (Public reads restricted strictly to available menu items)
+    match /menuItems/{itemId} {
+      allow get: if isValidId(itemId) && (isAdmin() || existing().availability == true);
+      allow list: if resource.data.availability == true || isAdmin();
+      allow create: if isValidId(itemId) && isAdmin() &&
+        isValidMenuItem(incoming(), itemId) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(itemId) && isAdmin() &&
+        isValidMenuItem(incoming(), itemId) &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().itemId == existing().itemId &&
+        incoming().updatedAt == request.time &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'name', 'urduTitle', 'description', 'portionLabel', 'categoryId',
+          'spice', 'spiceLabel', 'price', 'imageUrl', 'availability', 'featured',
+          'badge', 'badgeVariant', 'homeCategory', 'variants', 'updatedAt'
+        ]);
+      allow delete: if isValidId(itemId) && isAdmin();
+    }
+
+    // 9. Orders Collection (PII Protected; Created exclusively via Trusted Cloud Function or Admin)
+    match /orders/{orderId} {
+      allow get: if isValidId(orderId) && (
+        isAdmin() ||
+        (isSignedIn() && existing().userId == request.auth.uid)
+      );
+      allow list: if (isSignedIn() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create: if isValidId(orderId) && isAdmin() &&
+        isValidOrder(incoming(), orderId) &&
+        incoming().orderStatus == 'Pending' &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(orderId) && isAdmin() &&
+        isValidOrder(incoming(), orderId) &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().orderId == existing().orderId &&
+        incoming().trackingToken == existing().trackingToken &&
+        incoming().updatedAt == request.time &&
+        !(existing().orderStatus in ['Delivered', 'Cancelled'] && !isBootstrappedAdminEmail()) &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['orderStatus', 'riderName', 'riderPhone', 'etaMinutes', 'updatedAt']);
+      allow delete: if isValidId(orderId) && isAdmin();
+    }
+
+    // 10. Non-PII Order Tracking (Customer UID ownership OR unguessable secret tracking token)
+    match /orderTracking/{trackingId} {
+      allow get: if isValidId(trackingId) && (
+        isAdmin() ||
+        (isSignedIn() && existing().userId == request.auth.uid) ||
+        (isValidTrackingTokenId(trackingId) && existing().trackingToken == trackingId)
+      );
+      allow list: if (isSignedIn() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow create: if isValidId(trackingId) && isAdmin() &&
+        isValidOrderTracking(incoming(), trackingId) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(trackingId) && isAdmin() &&
+        isValidOrderTracking(incoming(), trackingId) &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().orderId == existing().orderId &&
+        incoming().trackingToken == existing().trackingToken &&
+        incoming().updatedAt == request.time &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['orderStatus', 'etaMinutes', 'updatedAt']);
+      allow delete: if isValidId(trackingId) && isAdmin();
+    }
+
+    // 11. Offers / Promo Vouchers Collection (Public reads restricted strictly to active offers)
+    match /offers/{offerId} {
+      allow get: if isValidId(offerId) && (isAdmin() || existing().isActive == true);
+      allow list: if resource.data.isActive == true || isAdmin();
+      allow create: if isValidId(offerId) && isAdmin() &&
+        isValidOffer(incoming(), offerId) &&
+        incoming().createdAt == request.time;
+      allow update: if isValidId(offerId) && isAdmin() &&
+        isValidOffer(incoming(), offerId) &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().offerId == existing().offerId &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['title', 'code', 'description', 'discount', 'discountType', 'imageUrl', 'startDate', 'endDate', 'redemptions', 'isActive']);
+      allow delete: if isValidId(offerId) && isAdmin();
+    }
+
+    // 12. Restaurant Settings Collection (Only 'main' public document readable by visitors)
+    match /restaurantSettings/{settingId} {
+      allow get: if isValidId(settingId) && (settingId == 'main' || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isValidId(settingId) && isAdmin() &&
+        isValidRestaurantSettings(incoming()) &&
+        incoming().updatedAt == request.time;
+      allow update: if isValidId(settingId) && isAdmin() &&
+        isValidRestaurantSettings(incoming()) &&
+        incoming().updatedAt == request.time &&
+        incoming().diff(existing()).affectedKeys().hasOnly([
+          'restaurantName', 'phone', 'whatsappNumber', 'address', 'openingHours',
+          'deliveryCharges', 'minimumOrder', 'deliveryRadius', 'gpsCoordinates',
+          'logoUrl', 'heroBannerUrl', 'updatedAt'
+        ]);
+      allow delete: if isValidId(settingId) && isAdmin();
+    }
+  }
+}
